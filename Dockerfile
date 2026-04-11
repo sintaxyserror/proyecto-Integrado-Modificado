@@ -19,12 +19,18 @@ RUN docker-php-ext-install gd
 
 RUN a2enmod rewrite
 
+# Copiar configuración de Apache
+COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
+
 # Copiar archivos de la aplicación
 COPY codigo/inflaestructura/www/ /var/www/html/
 
 # Permisos correctos
 RUN chown -R www-data:www-data /var/www/html
 RUN chmod -R 755 /var/www/html
+RUN chmod -R 644 /var/www/html/*.php
+RUN find /var/www/html -type d -exec chmod 755 {} \;
+RUN find /var/www/html -type f -exec chmod 644 {} \;
 
 #install xdebug
 RUN pecl install -f xdebug \
