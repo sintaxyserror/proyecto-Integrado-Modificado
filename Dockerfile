@@ -19,6 +19,13 @@ RUN docker-php-ext-install gd
 
 RUN a2enmod rewrite
 
+# Copiar archivos de la aplicación
+COPY codigo/inflaestructura/www/ /var/www/html/
+
+# Permisos correctos
+RUN chown -R www-data:www-data /var/www/html
+RUN chmod -R 755 /var/www/html
+
 #install xdebug
 RUN pecl install -f xdebug \
 && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini
