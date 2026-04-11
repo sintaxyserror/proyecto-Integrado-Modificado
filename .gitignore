@@ -10,3 +10,15 @@ node_modules/
 *.swp
 *.swo
 *~
+
+# Docker volumes
+persistent/
+codigo/inflaestructura/persistent/
+
+# Archivos del sistema Windows
+Thumbs.db
+desktop.ini
+
+# PHP caché
+.phar/
+*.phar
