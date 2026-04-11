@@ -1,0 +1,47 @@
+drop database if exists Proyecto;
+create database Proyecto;
+use Proyecto;
+
+create table Cuenta(
+correo varchar(100) primary key,
+contraseña varchar(20) not null,
+nombre varchar(45) not null
+);
+
+create table Poder(
+nombrePoder varchar(40) not null primary key,
+daño int,
+coste int
+);
+
+create table Personaje1(
+nombre varchar(45) primary key,
+energia int,
+correocuenta varchar(100),
+NombrePoder varchar(30),
+vida int,
+daño int,
+foreign key (correocuenta) references Cuenta(correo),
+foreign key (NombrePoder) references Poder(nombrePoder)
+);
+create table Personaje2(
+nombre varchar(45) primary key,
+energia int,
+correocuenta varchar(100),
+NombrePoder varchar(30),
+vida int,
+daño int,
+foreign key (correocuenta) references Cuenta(correo),
+foreign key (NombrePoder) references Poder(nombrePoder)
+);
+create table Batalla(
+id int primary key,
+fecha date,
+turnos int,
+ganador varchar(30),
+perdedor varchar(30),
+Nombrepersonaje1 varchar(45),
+Nombrepersonaje2 varchar(45),
+foreign key (Nombrepersonaje1) references Personaje1(nombre),
+foreign key (Nombrepersonaje2) references Personaje2(nombre)
+);

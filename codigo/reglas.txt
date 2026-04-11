@@ -1,0 +1,5 @@
+Reglas del codigo php
+.............................
+
+Todos los nombres de ls clases deben de tener la priemra letra en mayúscula y el archivo se debe de llamr igual,
+es decir que si la clase se llama Security el archivo debe de ser Security.php

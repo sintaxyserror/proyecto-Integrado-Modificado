@@ -1,0 +1,12 @@
+calambre,20,45,porduce un gran daño si se posee mucha energia
+curar,0,30,cura tu vida segun tu vida maxima
+embestida,15,15,produce un gran daño cuando ms vida tengas
+explosion,45,115,este poder gasta mucha energia oero hace ucho daño
+fumar,10,5,este poder te otorga energia a costa de tu vida y le hace daño al rival 
+morder,25,30,este poder hace mucho daño que escala con tu daño y tu vida
+puñetazo,5,15,este poderhace algo de daño pero gasta poca energia 
+transfusion,15,25,este poder sirve para robar vida al enemigo
+
+
+
+

@@ -1,0 +1,32 @@
+body {
+    font-family: 'Press Start 2P', cursive;
+    margin: 20px;
+    background-color: #1c1c1c;
+    color: #fff;
+    background-image: url('/img/bosquejapones.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top center;
+    padding-top: 56px; 
+}
+
+.batalla {
+    font-size: 14px; 
+    width: 300px;
+    margin: 0 10px 15px 0;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    color: #fff;
+    float: left;
+}
+
+.batalla p {
+    margin: 5px 0;
+    color: #fff;
+    font-size: 12px; 
+}
+
+h1{
+    color:red;
+}

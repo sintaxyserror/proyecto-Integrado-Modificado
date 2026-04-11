@@ -1,0 +1,169 @@
+body {
+    background-image: url('/img/nuevofondo.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top center;
+    margin: 0; 
+    padding-top: 56px; 
+}
+
+
+.card {
+    transition: transform 0.3s ease;
+    position: relative;
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+    background-size: cover; 
+    background-position: center; 
+    background-image: url('/img/fondocarta.jpg');
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px; 
+    height: 400px;
+    text-align: center;
+    
+}
+
+.card:hover {
+    transform: scale(1.12); 
+}
+
+.card-footer {
+    position: absolute; 
+    bottom: 0; 
+    left: 0;
+    right: 0;
+    height: 90px;
+    background-image: url('/img/color.jpg');
+    background-size: contain;
+    box-sizing: border-box;
+    padding: 5px; 
+}
+
+.card-footer .card-text {
+    margin: 2px 0; 
+    line-height: 1.2; 
+}
+.card1 {
+    margin-top: 20px;
+    background-image: url('/img/refuerzos1.png');
+    height: 220px;
+    background-size: cover; 
+    background-position: center; 
+    border-radius: 15px;
+    border: 2px groove goldenrod; 
+}
+
+.card1 .card-title {
+    margin-top: -30px;
+}
+.card2 {
+    margin-top: 20px;
+    background-image: url('/img/aguastermales.png');
+    height: 220px;
+    background-size: cover; 
+    background-position: center; 
+    border-radius: 15px;
+    border: 2px groove goldenrod; 
+}
+
+.card2 .card-title {
+    margin-top: -30px;
+}
+.card3 {
+    margin-top: 20px;
+    background-image: url('/img/catapulta.png');
+    height: 220px;
+    background-size: cover; 
+    background-position: center; 
+    border-radius: 15px;
+    border: 2px groove goldenrod; 
+}
+
+.card3 .card-title {
+    margin-top: -30px;
+}
+.card4 {
+    margin-top: 20px;
+    background-image: url('/img/lluviadefuego.png');
+    height: 220px;
+    background-size: cover; 
+    background-position: center; 
+    border-radius: 15px;
+    border: 2px groove goldenrod; 
+}
+
+.card4 .card-title {
+    margin-top: -30px;
+}
+.card5 {
+    margin-top: 20px;
+    background-image: url('/img/arquera.jpg');
+    height: 220px;
+    background-size: cover; 
+    background-position: center; 
+    border-radius: 15px;
+    border: 2px groove goldenrod; 
+}
+
+.card5 .card-title {
+    margin-top: -30px;
+}
+.card6 {
+    margin-top: 20px;
+    background-image: url('/img/ninjas.png');
+    height: 220px;
+    background-size: cover; 
+    background-position: center; 
+    border-radius: 15px;
+    border: 2px groove goldenrod; 
+}
+
+.card6 .card-title {
+    margin-top: -30px;
+}
+.card7 {
+    margin-top: 20px;
+    background-image: url('/img/puñetazo.png');
+    height: 220px;
+    background-size: cover; 
+    background-position: center; 
+    border-radius: 15px;
+    border: 2px groove goldenrod; 
+}
+
+.card7 .card-title {
+    margin-top: -30px;
+}
+.card8 {
+    margin-top: 20px;
+    background-image: url('/img/extraer.jpg');
+    height: 220px;
+    background-size: cover; 
+    background-position: center; 
+    border-radius: 15px;
+    border: 2px groove goldenrod; 
+}
+
+.card8 .card-title {
+    margin-top: -30px;
+}
+.card9 {
+    margin-top: 20px;
+    background-image: url('/img/puñetazo.png');
+    height: 220px;
+    background-size: cover; 
+    background-position: center; 
+    border-radius: 15px;
+    border: 2px groove goldenrod; 
+}
+
+.card9 .card-title {
+    margin-top: -30px;
+}
+
+
+
+
+
