@@ -1,1 +1,1 @@
-db,root,test,Proyecto
+db,projectuser,projectpass,Proyecto,pgsql,5432

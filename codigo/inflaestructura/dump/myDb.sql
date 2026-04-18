@@ -1,73 +1,67 @@
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8mb4 */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET COLLATION_CONNECTION='utf8mb4_unicode_ci' */;
+-- PostgreSQL schema for Proyecto game database
 
-CREATE DATABASE IF NOT EXISTS Proyecto CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE Proyecto;
+CREATE TABLE IF NOT EXISTS Cuenta(
+    correo varchar(100) primary key,
+    contraseña varchar(100) not null,
+    nombre varchar(45) not null
+);
 
-CREATE TABLE Cuenta(
-correo varchar(100) primary key,
-contraseña varchar(100) not null,
-nombre varchar(45) not null
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS Poder(
+    nombrePoder varchar(40) not null primary key,
+    daño int,
+    coste int,
+    descripcion varchar(255)
+);
 
-CREATE TABLE Poder(
-nombrePoder varchar(40) not null primary key,
-daño int,
-coste int,
-descripcion varchar(255)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS Personaje(
+    nombre varchar(45) primary key,
+    energia int,
+    correocuenta varchar(100),
+    vida int,
+    daño int,
+    foreign key (correocuenta) references Cuenta(correo)
+);
 
-CREATE TABLE Personaje(
-nombre varchar(45) primary key,
-energia int,
-correocuenta varchar(100),
-vida int,
-daño int,
-foreign key (correocuenta) references Cuenta(correo)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS PersonajePoder(
+    nombrePersonaje varchar(45),
+    nombrePoder varchar(40),
+    primary key (nombrePersonaje, nombrePoder),
+    foreign key (nombrePersonaje) references Personaje(nombre),
+    foreign key (nombrePoder) references Poder(nombrePoder)
+);
 
-CREATE TABLE PersonajePoder(
-nombrePersonaje varchar(45),
-nombrePoder varchar(40),
-primary key (nombrePersonaje, nombrePoder),
-foreign key (nombrePersonaje) references Personaje(nombre),
-foreign key (nombrePoder) references Poder(nombrePoder)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS Batalla(
+    id SERIAL primary key,
+    fecha date,
+    turnos int,
+    ganador varchar(30),
+    perdedor varchar(30),
+    Nombrepersonaje1 varchar(45),
+    Nombrepersonaje2 varchar(45),
+    foreign key (Nombrepersonaje1) references Personaje(nombre),
+    foreign key (Nombrepersonaje2) references Personaje(nombre)
+);
 
-CREATE TABLE Batalla(
-id int primary key auto_increment,
-fecha date,
-turnos int,
-ganador varchar(30),
-perdedor varchar(30),
-Nombrepersonaje1 varchar(45),
-Nombrepersonaje2 varchar(45),
-foreign key (Nombrepersonaje1) references Personaje(nombre),
-foreign key (Nombrepersonaje2) references Personaje(nombre)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS BatallaDetalle(
+    id int,
+    idBatalla int,
+    nombrePoder varchar(40),
+    nombrePersonaje varchar(45),
+    daño int,
+    energia int,
+    primary key (id, idBatalla),
+    foreign key (idBatalla) references Batalla(id),
+    foreign key (nombrePoder) references Poder(nombrePoder),
+    foreign key (nombrePersonaje) references Personaje(nombre)
+);
 
-CREATE TABLE BatallaDetalle(
-id int,
-idBatalla int,
-nombrePoder varchar(40),
-nombrePersonaje varchar(45),
-daño int,
-energia int,
-primary key (id, idBatalla),
-foreign key (idBatalla) references Batalla(id),
-foreign key (nombrePoder) references Poder(nombrePoder),
-foreign key (nombrePersonaje) references Personaje(nombre)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE BatallaPersonaje(
-idbatalla int,
-nombrePersonaje varchar(45),
-primary key (idbatalla, nombrePersonaje),
-foreign key (idbatalla) references Batalla(id),
-foreign key (nombrePersonaje) references Personaje(nombre)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS BatallaPersonaje(
+    idbatalla int,
+    nombrePersonaje varchar(45),
+    primary key (idbatalla, nombrePersonaje),
+    foreign key (idbatalla) references Batalla(id),
+    foreign key (nombrePersonaje) references Personaje(nombre)
+);
 
 -- Insertar poderes de ejemplo
 INSERT INTO Poder (nombrePoder, daño, coste, descripcion) VALUES
@@ -80,21 +74,24 @@ INSERT INTO Poder (nombrePoder, daño, coste, descripcion) VALUES
 ('transfusion', 15, 25, 'Roba vida al enemigo'),
 ('embestida', 0, 15, 'Ataque poderoso basado en tu vida'),
 ('explosion', 0, 0, 'Poder especial'),
-('saltarTurno', 0, 0, 'Sin acción');
+('saltarTurno', 0, 0, 'Sin acción')
+ON CONFLICT (nombrePoder) DO NOTHING;
 
 -- Insertar cuentas de ejemplo (contraseña: 'test' para todas)
 INSERT INTO Cuenta (correo, contraseña, nombre) VALUES
 ('jonathan@gmail.com', '$2y$10$7t9NgHfMSXnVLD/H4F8Ot.V5arBt3ldx.MjBzpN.nlzl1DVu9wpCm', 'Jonathan'),
 ('test@test.com', '$2y$10$7t9NgHfMSXnVLD/H4F8Ot.V5arBt3ldx.MjBzpN.nlzl1DVu9wpCm', 'Test User'),
 ('player1@game.com', '$2y$10$7t9NgHfMSXnVLD/H4F8Ot.V5arBt3ldx.MjBzpN.nlzl1DVu9wpCm', 'Jugador 1'),
-('player2@game.com', '$2y$10$7t9NgHfMSXnVLD/H4F8Ot.V5arBt3ldx.MjBzpN.nlzl1DVu9wpCm', 'Jugador 2');
+('player2@game.com', '$2y$10$7t9NgHfMSXnVLD/H4F8Ot.V5arBt3ldx.MjBzpN.nlzl1DVu9wpCm', 'Jugador 2')
+ON CONFLICT (correo) DO NOTHING;
 
 -- Insertar personajes de ejemplo
 INSERT INTO Personaje (nombre, energia, correocuenta, vida, daño) VALUES
 ('Guerrero', 50, 'jonathan@gmail.com', 100, 25),
 ('Mago', 80, 'test@test.com', 70, 35),
 ('Arquero', 60, 'player1@game.com', 85, 28),
-('Nigromante', 75, 'player2@game.com', 95, 32);
+('Nigromante', 75, 'player2@game.com', 95, 32)
+ON CONFLICT (nombre) DO NOTHING;
 
 -- Asignar poderes a personajes
 INSERT INTO PersonajePoder (nombrePersonaje, nombrePoder) VALUES
@@ -109,9 +106,6 @@ INSERT INTO PersonajePoder (nombrePersonaje, nombrePoder) VALUES
 ('Arquero', 'embestida'),
 ('Nigromante', 'transfusion'),
 ('Nigromante', 'calambre'),
-('Nigromante', 'morder');
+('Nigromante', 'morder')
+ON CONFLICT DO NOTHING;
 
-
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -1,87 +1,74 @@
-# 📋 Notas sobre el Despliegue en Railway
+# 📋 Notas sobre el Despliegue
 
-## Cómo funciona
+## Opción 1: Render + Supabase (Recomendado) ⭐
 
-1. Railway detecta automáticamente `docker-compose.yml` en la raíz del proyecto
-2. Construye la imagen desde el `Dockerfile`
-3. Inicia los servicios especificados
+### Paso 1: Crear proyecto en Supabase (gratis)
 
-## Variables de Entorno en Railway
+1. Ve a https://supabase.com
+2. Sign up con GitHub o email
+3. Click **"New Project"**
+4. Configura:
+   - Project name: `proyecto-game`
+   - Password: (anota esta contraseña)
+   - Region: Europe (más cercano)
+5. **Espera 1-2 minutos** a que se cree
+6. Una vez listo, ve a **Settings** → **Database** → **Connection Pooling**
+7. Copia la URL (formato: `postgresql://user:pass@host:port/database`)
 
-Railway inyectará automáticamente:
-- **Para el servicio `db` (MySQL)**:
-  - `MYSQL_ROOT_PASSWORD`: Generada automáticamente por Railway
-  - `MYSQL_DATABASE`: "Proyecto" (tal como está en docker-compose.yml)
-  
-- **Para el servicio `www` (PHP-Apache)**:
-  - El HOST de la BD se resuelve como `db` dentro de la red Docker
-  - Los puertos internos se mapean automáticamente
+### Paso 2: Agregar datos iniciales
 
-## Configuración Manual Necesaria en Railway
+1. En Supabase, ve a **SQL Editor** → **New Query**
+2. Copia el contenido de `codigo/inflaestructura/dump/myDb.sql`
+3. Pega y ejecuta (Run)
+4. Verifica que las tablas se crearon en **Table Editor**
 
-Después de crear el proyecto en Railway:
+### Paso 3: Configurar Render
 
-1. **Ir a Variables** (Critical)
-   - DEBE agregar estas variables en Railway Dashboard → Project → Settings → Variables:
+1. Sube tu código a GitHub (si aún no está)
+2. Ve a https://render.com
+3. Sign up / Login
+4. Click **"New"** → **"Web Service"**
+5. Conecta tu repositorio GitHub
+6. Configura:
+   - Name: `proyecto-integrado`
+   - Build Command: (dejar vacío o `echo "Building..."`)
+   - Start Command: (dejar vacío, usa docker-compose)
+7. Click **"Advanced"**
+8. En **Environment Variables**, agrega:
    ```
-   DB_HOST=db
-   DB_USER=root
-   DB_PASSWORD=test
-   DB_NAME=Proyecto
-   MYSQL_ROOT_PASSWORD=test
-   MYSQL_DATABASE=Proyecto
-   MYSQL_PASSWORD=test
+   DATABASE_URL=postgresql://user:password@host:port/database
    ```
-   
-   **⚠️ IMPORTANTE:** Sin estas variables, la conexión a la base de datos fallará con "Name or service not known"
+   (Reemplaza con la URL de Supabase del paso 1)
+9. Click **"Deploy"**
 
-2. **Conectar como Services**
-   - El MySQL se detectará como base de datos
-   - El PHP-Apache como servicio web
+### Paso 4: Espera el deploy
 
-3. **Agregar Dominio** (opcional)
-   - Railway proporciona automáticamente: https://proyecto-production.railway.app
-   - Puedes agregar un dominio personalizado en Settings
-
-## Puertos en Producción
-
-- Railway expone el puerto 80 del contenedor `www` como HTTPS automáticamente
-- No necesitas especificar puertos - Railway lo maneja
-- PHPMyAdmin (8000) no será accesible desde internet por seguridad (Railway bloquea puertos internos)
-
-## Health Checks
-
-Para mejorar la confiabilidad, Railroad puede revisar el estado del servicio.
-Esto ya está configurado implícitamente por Docker.
-
-## Redeploy Automático
-
-Cada vez que hagas `git push` al repositorio conectado:
-1. Railway detecta el cambio
-2. Construye una nueva imagen
-3. Detiene la versión anterior
-4. Inicia la nueva versión con cero downtime
-
-## Variables Sensibles
-
-Nunca commitear al repositorio:
-- `.env` (local) ← está en .gitignore
-- Contraseñas en código
-- Claves API
-
-Railway proporciona un editor seguro de variables en Settings → Variables.
-
-## Logs en Producción
-
-Ver logs en tiempo real:
-- Dashboard de Railway → Deployments → Click en el deployment
-- Los logs del HTTP aparecen en tiempo real
-- Los errores de PHP aparecen en el log de servicios
-
-## Rolled Back Automático
-
-Si el nuevo deployment falla, Railway automáticamente revierte a la versión anterior.
+- Render construirá la imagen Docker
+- Desplegará en unos 5 minutos
+- ¡Accede a tu URL cuando esté listo!
 
 ---
 
-**Todas estas configuraciones son automáticas - Railway maneja casi todo por ti.**
+## Opción 2: Railway (No gratuito, pero más fácil)
+
+1. Ve a https://railway.app
+2. Conecta tu GitHub
+3. Railway detecta automáticamente `docker-compose.yml`
+4. Agrega PostgreSQL desde el dashboard
+5. Railway inyecta `DATABASE_URL` automáticamente
+6. Deploy automático
+
+**Costo:** ~$5/mes
+
+---
+
+## Desarrollo Local
+
+```bash
+cd codigo/inflaestructura
+docker-compose up -d
+```
+
+- Accede: http://localhost:8080
+- pgAdmin: http://localhost:5050 (email: admin@example.com, pass: admin)
+

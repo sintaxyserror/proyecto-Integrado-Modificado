@@ -1,18 +1,16 @@
 version: "3.1"
 services:
     db:
-        image: mysql
+        image: postgres:15-alpine
         ports: 
-            - "3305:3306"
-        command: --default-authentication-plugin=mysql_native_password
+            - "5432:5432"
         environment:
-            MYSQL_DATABASE: Proyecto
-            MYSQL_PASSWORD: test
-            MYSQL_ROOT_PASSWORD: test 
+            POSTGRES_DB: Proyecto
+            POSTGRES_USER: projectuser
+            POSTGRES_PASSWORD: projectpass
         volumes:
             - ./codigo/inflaestructura/dump:/docker-entrypoint-initdb.d
-            - ./codigo/inflaestructura/conf:/etc/mysql/conf.d
-            - persistent:/var/lib/mysql
+            - persistent:/var/lib/postgresql/data
         networks:
             - default
     www:
@@ -21,19 +19,27 @@ services:
             - "8080:80"
         volumes:
             - ./codigo/inflaestructura/www:/var/www/html
+        environment:
+            DB_HOST: db
+            DB_USER: projectuser
+            DB_PASSWORD: projectpass
+            DB_NAME: Proyecto
+            DB_PORT: 5432
         links:
             - db
         networks:
             - default
-    phpmyadmin:
-        image: phpmyadmin:latest
-        links: 
-            - db:db
+    pgadmin:
+        image: dpage/pgadmin4:latest
         ports:
-            - 8000:80
+            - "5050:80"
         environment:
-            MYSQL_USER: root
-            MYSQL_PASSWORD: test
-            MYSQL_ROOT_PASSWORD: test 
+            PGADMIN_DEFAULT_EMAIL: admin@example.com
+            PGADMIN_DEFAULT_PASSWORD: admin
+        networks:
+            - default
+        depends_on:
+            - db
 volumes:
     persistent:
+
