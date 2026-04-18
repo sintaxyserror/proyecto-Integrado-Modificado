@@ -27,9 +27,13 @@ RUN echo "xdebug.discover_client_host = 0" >> /usr/local/etc/php/conf.d/xdebug.i
 RUN echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/xdebug.ini
 RUN echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/xdebug.ini
 
-
 RUN touch /usr/local/etc/php/php.ini 
 RUN echo "xdebug.mode=debug" >> /usr/local/etc/php/php.ini
 RUN echo "xdebug.client_host = 127.0.0.1" >> /usr/local/etc/php/php.ini
 RUN echo "xdebug.client_port = 9003" >> /usr/local/etc/php/php.ini
 RUN echo "xdebug.start_with_request=trigger" >> /usr/local/etc/php/php.ini
+
+# Copiar archivos de la aplicación
+COPY codigo/inflaestructura/www /var/www/html/
+RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
+
