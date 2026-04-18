@@ -21,15 +21,19 @@ Railway inyectará automáticamente:
 
 Después de crear el proyecto en Railway:
 
-1. **Ir a Variables**
-   - Agregar estas vars:
+1. **Ir a Variables** (Critical)
+   - DEBE agregar estas variables en Railway Dashboard → Project → Settings → Variables:
    ```
-   MYSQL_ROOT_PASSWORD=test
-   MYSQL_DATABASE=Proyecto
    DB_HOST=db
    DB_USER=root
    DB_PASSWORD=test
+   DB_NAME=Proyecto
+   MYSQL_ROOT_PASSWORD=test
+   MYSQL_DATABASE=Proyecto
+   MYSQL_PASSWORD=test
    ```
+   
+   **⚠️ IMPORTANTE:** Sin estas variables, la conexión a la base de datos fallará con "Name or service not known"
 
 2. **Conectar como Services**
    - El MySQL se detectará como base de datos
