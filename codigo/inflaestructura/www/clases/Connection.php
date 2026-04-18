@@ -77,7 +77,8 @@ class Connection
         // Conectar usando PDO (funciona con MySQL y PostgreSQL)
         try {
             if ($this->dbType === 'pgsql') {
-                $dsn = "pgsql:host={$this->host};port={$this->port};dbname={$this->db}";
+                // Para Supabase y PostgreSQL en general, agregar sslmode=require
+                $dsn = "pgsql:host={$this->host};port={$this->port};dbname={$this->db};sslmode=require";
             } else {
                 $dsn = "mysql:host={$this->host};port={$this->port};dbname={$this->db}";
             }
@@ -88,6 +89,9 @@ class Connection
             ]);
         } catch (PDOException $e) {
             die("Connection failed: " . $e->getMessage());
+        }
+    }
+}
         }
     }
 }
